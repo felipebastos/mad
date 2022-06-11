@@ -4,7 +4,9 @@ RUN pip install -U pip
 
 WORKDIR /usr/src/app
 COPY requirements.txt ./requirements.txt
-RUN pip install -r --no-cache-dir requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8080", "wsgi:app"]
+COPY . .
+
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8080", "backend.wsgi:application"]
 EXPOSE 8080
