@@ -1,0 +1,6 @@
+FROM alpine:latest
+RUN apk add --update --no-cache zsh zsh-theme-powerlevel10k
+RUN mkdir -p ~/.local/share/zsh/plugins
+RUN ln -s /usr/share/zsh/plugins/powerlevel10k ~/.local/share/zsh/plugins/
+RUN mkdir -p ~/.config/zsh
+ENTRYPOINT [ "zsh" ]
