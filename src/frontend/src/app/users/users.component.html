@@ -1,0 +1,7 @@
+<div *ngFor="let user of (users | async)">
+    <ul>
+        <li><a href="{{user.url}}">{{user.username}}</a></li>
+        <li>{{user.is_staff}}</li>
+        <li>{{user.email}}</li>
+    </ul>
+</div>

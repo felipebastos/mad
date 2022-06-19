@@ -1,13 +1,18 @@
+# Para um container menor, a versão alpine é ótima
 FROM python:3-alpine
-
+# Instalando o cliente mysql no sistema
+RUN apk update \
+    && apk add --virtual build-deps gcc python3-dev musl-dev \
+    && apk add --no-cache mariadb-dev
+# Atualizando o pip
 RUN pip install -U pip
-
+# Instalando as libs do projeto sem cache pra não gerar um container maior
 WORKDIR /usr/src/app
 COPY requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
-
+RUN apk del build-deps
+# Copiando o projeto e atualizando o banco de dados
 COPY . .
-RUN python manage.py migrate
-
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8080", "backend.wsgi:application"]
-EXPOSE 8080
+# Executando o projeto com o gunicorn
+ENTRYPOINT [ "sh", "entrypoint.sh" ]
+EXPOSE 9000
